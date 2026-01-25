@@ -56,12 +56,12 @@ jobs:
       - name: Fetch latest changes to Snowflake
         run: snow git fetch course_repo.public.advanced_data_engineering_snowflake
 
-      # Deploy templates to the data environment -
-      - name: Deploy templates to data environment
-        run: |
-          # Export TARGET_BRANCH for use in this step
-          echo "Using branch: ${GITHUB_REF_NAME}"
-          snow git execute @advanced_data_engineering_snowflake/branches/FIX-ME/module-1/hamburg_weather/pipeline/data/ \
-          -D "env='${{  }}'" \
-          --database=COURSE_REPO \
-          --schema=PUBLIC
+      # Deploy templates to data environment -
+      - name: Deploy templates to data environment
+        run: |
+          echo "Using branch: ${GITHUB_REF_NAME}"
+          # Agregamos COURSE_REPO.PUBLIC. antes del nombre del repo
+          snow git execute @COURSE_REPO.PUBLIC.advanced_data_engineering_snowflake/branches/${{ github.ref_name }}/module-1/hamburg_weather/pipeline/data/ \
+          -D "env='${{ env.DEPLOY_ENV }}'" \
+          --database=COURSE_REPO \
+          --schema=PUBLIC
